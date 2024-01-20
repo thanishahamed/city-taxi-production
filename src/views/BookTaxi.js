@@ -12,9 +12,9 @@ const BookTaxi = () => {
         <div>
             <div className="text-3xl">Book A Taxi!</div>
             <div>
-                <div>
-                    <div>From</div>
-                    <Input />
+                <div className="pb-4">
+                    <div className="pb-1">Email</div>
+                    <Input name={'email'} className='w-full' type="email" required />
                 </div>
                 <div>
                     <div>To</div>

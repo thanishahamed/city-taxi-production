@@ -27,7 +27,7 @@ function Root() {
         return (
             <div className={''}>
                 <div className='md:px-20 flex justify-between flex-col h-screen'>
-                    <Outlet/>
+                    <div style={{width: '100vw'}}><Outlet/></div>
                     <BottomNavigation />
                 </div>
             </div>

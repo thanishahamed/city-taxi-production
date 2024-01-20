@@ -1,10 +1,14 @@
+import MiniLoadingIndicator from "./MiniLoadingIndicator"
+
 const Button = ({
     children, 
     className, 
     onClick, 
     size = 'md',
     style = 'default',
-    type
+    type,
+    disabled,
+    isLoading
 }) => {
     const buttonSizes = {
         md: 'px-5 py-3 text-sm',
@@ -20,10 +24,11 @@ const Button = ({
 
     return (
         <button 
-            className={`${buttonSizes[size]} ${buttonStyles[style]} shadow-2xl drop-shadow-sm transition ease-in-out duration-300 hover:scale-105 rounded ${className}`}
+            className={`${buttonSizes[size]} ${buttonStyles[style]} shadow-2xl drop-shadow-sm transition ease-in-out duration-300 hover:scale-105 rounded disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed flex justify-center ${className}`}
             onClick={onClick}
             type={type}
-        >{children}</button>
+            disabled={disabled}
+        >{isLoading ? <MiniLoadingIndicator /> : children}</button>
     )
 }
 
