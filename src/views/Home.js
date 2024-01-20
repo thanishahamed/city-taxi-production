@@ -7,22 +7,15 @@ import BookTaxi from "./BookTaxi";
 const Home = () => {
     const {logOut, user} = useContext(AuthContext);
     
-    const showUser = () => {
-        console.log(user);
-    }
-
     return (
-        <div>
-            <div className="text-3xl">Home</div>
-            <div>Welcome {user ? user.email : ''} to City Taxi!</div>
-            <Button onClick={showUser}>Show User</Button>
+        <div className="md:px-20 m-auto md:w-2/3 md:p-10">
+            <div className="bg-yellow-100 backdrop-blur border-4 p-10 w-full border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
+                <div className="text-3xl">Home</div>
+                <div>Welcome {user ? user.email : ''} to City Taxi!</div>
 
-            <div className="pt-5">
-                <BookTaxi />
-            </div>
-
-            <div className="pt-5">
-                <WebPage />
+                <div className="pt-5">
+                    <BookTaxi />
+                </div>
             </div>
         </div>
     )
