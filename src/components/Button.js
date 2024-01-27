@@ -18,6 +18,7 @@ const Button = ({
     const buttonStyles = {
         default: 'bold hover:bg-yellow-400 bg-yellow-500 focus:border-yellow-200',
         success: 'text-slate-100 bold hover:bg-green-600 bg-green-700 focus:border-green-300',
+        light: 'text-yellow-800 bold hover:bg-yellow-600 hover:text-slate-100 bg-yellow-200 focus:border-green-300',
         danger: 'text-slate-100 bold hover:bg-red-600 bg-red-700 focus:border-red-300',
         ghost: 'border-none rounded-full'
     }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {DELETE, GET, POST} from "../utils/requestActionConstants";
+import {DELETE, GET, POST, PUT} from "../utils/requestActionConstants";
 
 export async function processReq(method, url, data, customHeader) {
     const token = localStorage.getItem('token');
@@ -34,6 +34,21 @@ export async function processReq(method, url, data, customHeader) {
         case POST:
             try {
                 let result = await axios.post(url, data, headerConfig);
+                
+                response = result.data;
+            } catch (error) {
+                // console.log('error printing', error.toString());
+                // alert(error.toString());
+                // console.log(error.toString())
+                response.message = (error.response && error.response.data.message ? error.response.data.message : '') || error.toString();
+                
+                // window.location.replace('/');
+            }
+            
+            break;
+        case PUT:
+            try {
+                let result = await axios.put(url, data, headerConfig);
                 
                 response = result.data;
             } catch (error) {
