@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { API_ROUTE } from "../utils/commonConstants";
-import { POST } from "../utils/requestActionConstants";
+import { GET, POST } from "../utils/requestActionConstants";
 import { processReq } from "../helpers/processRequest";
 import { createContext } from "react";
+import { userRoles } from "../utils/configConstants";
 
 export const AuthContext = createContext(null);
 
@@ -55,12 +56,21 @@ const AuthContextProvider = ({children}) => {
             logOut();
             console.log('logout called')
         } else {
-            setUser(response);
+
+            let user = response;
+
+            if (user.role === userRoles.driver || user.role === userRoles.vehicleOwner) {
+                const vehicle = await processReq(GET, API_ROUTE + "/auth/user/vehicle/"+user.id);
+
+                user.vehicle = vehicle;
+            }
+
+            setUser(user);
         }
     }
 
     return (
-        <AuthContext.Provider value={{logOut, isLoggedIn, login, user}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{logOut, isLoggedIn, login, user, verifyUser: verifyUser}}>{children}</AuthContext.Provider>
     );
 }
 

@@ -22,7 +22,7 @@ const LottieViewer = ({lottieName, loop = true}) => {
 
     return (
         <div className="" style={{overflow: 'hidden'}}>
-            <div ref={animContainer} style={{height: '100vh', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}></div>
+            <div ref={animContainer} style={{height: 'calc(100vh - 100px)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}></div>
         </div>
     )
 }

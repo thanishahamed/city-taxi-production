@@ -2,7 +2,7 @@ const SuccessMessageViewer = ({message, className, title}) => {
     return (
         <div>
             <div className={`${className}`}>{title}</div>
-            <div className={`${className}`}>{message}</div>
+            <div className={`${className} text-lg`}>{message}</div>
         </div>
     )
 }

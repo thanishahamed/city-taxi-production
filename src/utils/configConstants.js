@@ -6,3 +6,34 @@ export const userRoles = {
     passenger: 4,
     operator: 5
 }
+
+export const tripStatus = {
+    waitingForDriver: 'WAITING FOR DRIVER',
+    finished: 'FINISHED',
+    finishedPaid: 'FINISHED PAID',
+    started: 'STARTED'
+}
+
+export const driverStatus = {
+    busy: 0,
+    available: 1
+}
+
+export const driverApproval = {
+    approved: 1,
+    declined: 0
+}
+
+export const paymentStatus = {
+    paid: 'PAID',
+    toBePaid: 'TO BE PAID'
+}
+
+export const userStatus = {
+    active: 'ACTIVE',
+    unregistered: 'UNREGISTERED'
+}
+
+export const tripCost = {
+    perMeter: 0.15
+}

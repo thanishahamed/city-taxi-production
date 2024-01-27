@@ -69,6 +69,7 @@ const Login = () => {
             {!isLoggedIn ? 
                 <div>
                     <div className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
+                        <Button size="sm" style={'light'} className={'mb-4'} onClick={() => {navigate('/')}}>Back to Home</Button>
                         <div className="text-4xl pb-8">Login</div>
                         <Alert isShow={isError} setIsShow={setIsError} message={errorMessage} />
                         <form onSubmit={onSubmit} noValidate>
@@ -78,7 +79,7 @@ const Login = () => {
                             </div>
 
                             <div className="pb-4">
-                                <div className="pb-1">First Name</div>
+                                <div className="pb-1">Password</div>
                                 <Input name={'password'} className='w-full' type='password' required />
                             </div>
 

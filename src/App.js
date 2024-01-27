@@ -9,6 +9,10 @@ import TripHistory from "./views/TripHistory";
 import Settings from "./views/Settings";
 import MyPayments from "./views/MyPayments";
 import Admin from "./views/Admin";
+import MyTrip from "./views/MyTrip";
+import MakePayment from "./views/MakePayment";
+import RateDriver from "./views/RateDriver";
+import TripSummary from "./views/TripSummary";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +25,8 @@ const router = createBrowserRouter([
               element: <Home />
           },
           {
-              path: "/availability",
-              element: <AvailableTaxiList />
+              path: "/myTrip",
+              element: <MyTrip />
           },
           {
               path: "/history",
@@ -35,6 +39,18 @@ const router = createBrowserRouter([
           {
               path: "/payments",
               element: <MyPayments />
+          },
+          {
+            path: "/payments/create",
+            element: <MakePayment />
+          },
+          {
+            path: "/trip/rate",
+            element: <RateDriver />
+          },
+          {
+            path: "/trip/details",
+            element: <TripSummary />
           },
       ]
   },

@@ -26,8 +26,8 @@ function Root() {
     if (isLoggedIn) {
         return (
             <div className={''}>
-                <div className='md:px-20 flex justify-between flex-col h-screen'>
-                    <div style={{width: '100vw'}}><Outlet/></div>
+                <div className='md:px-20 flex justify-between flex-col'>
+                    <div className='overflow-x-hidden overflow-y-auto' style={{width: '', height: 'calc(100vh - 64px)'}}><Outlet/></div>
                     <BottomNavigation />
                 </div>
             </div>
