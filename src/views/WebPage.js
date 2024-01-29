@@ -46,7 +46,7 @@ const WebPage = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
         {!isLoggedIn ? (
           <>
-            <div className="flex justify-center gap-4 sm:gap-5">
+            <div className="flex justify-center gap-4 sm:gap-5" style={{height: 45}}>
               <Button onClick={onClickLogin}>Login</Button>
               <Button onClick={onClickRegister} style="success">
                 Register
@@ -71,7 +71,7 @@ const WebPage = () => {
               <h5>BOOK FOR LESS TODAY! TRY CITY TAXI</h5>
               <h1>Need to Travel? Get a lift or Find a free seat</h1>
               <div className="">
-                <Button className="btn-banner mx-auto mt-5">BOOK NOW</Button>
+                <Button className="btn-banner mx-auto mt-5" onClick={onClickLogin}>BOOK NOW</Button>
               </div>
             </div>
           </div>
@@ -303,7 +303,7 @@ const WebPage = () => {
         </div>
       </div>
       <div className="about-section mt-10 sm:mt-20 mr-2 ml-2">
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-4">
           <div className="description">
             <h2>About City Taxi</h2>
             <p className="xl:max-w-2xl mt-4">

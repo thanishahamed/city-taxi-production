@@ -180,7 +180,7 @@ const BookTaxi = () => {
     }
 
     return(
-        <div>
+        <div className="shadow-xl rounded-lg p-4 md:p-8 bg-slate-50/80">
             <div className="text-3xl">Book A Taxi!</div>
             <div>
                 <Alert isShow={isError} setIsShow={setIsError} message={errorMessage} />
@@ -210,7 +210,7 @@ const BookTaxi = () => {
                                 <div className="pb-4">
                                     <div className="pb-1">Location From:</div>
                                     <Button type={'button'} size="sm" style={fromCurrentLocation ? 'danger' : 'success'} className={'my-3'} onClick={locate}>{fromCurrentLocation ? "Click to disable using current location" : "Use Current Location"}</Button>
-                                    <div>Current Location</div>
+                                    {/* <div>Current Location</div> */}
                                     {fromCurrentLocation ? currentLiveLocation.lat ? currentLiveLocation.lat + " - " + currentLiveLocation.lng : 'Loading Current Location...' : ''}
                                     <StandaloneSearchBox onLoad={ref => fromDestinationRef.current = ref} onPlacesChanged={fromPlaceChanged}>
                                         <Input name={'locationFrom'} className='w-full' required={!fromCurrentLocation} disabled={fromCurrentLocation}/>
@@ -229,7 +229,7 @@ const BookTaxi = () => {
                                     <Input name={'tripStartTime'} className='w-full' type="datetime-local" required />
                                 </div>
 
-                                <Button type={'submit'} className={'mt-5'}>Book Now!</Button>
+                                <Button type={'submit'} className={'mt-5 w-full'}>Book Now!</Button>
                             </form>
                         </div> 
                         : ''

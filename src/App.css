@@ -115,7 +115,7 @@ body{
 body {
   background-image: url(./assets/bg.png);
   background-size: contain;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat; */
 }
 
 .lds-dual-ring {
@@ -258,3 +258,33 @@ font-size: 12px;
   }
  }
 
+
+ .gradient-bg-1 {
+  background: rgb(237,237,237);
+  background: linear-gradient(-47deg, rgb(237, 237, 237) 0%, rgb(255, 249, 237) 19%, rgb(255, 234, 216) 47%, rgb(255, 231, 176) 70%, rgb(255, 250, 234) 100%);
+  box-shadow: -1px 0 15px 5px rgb(228, 246, 255);
+  background-size: 400% 400%;
+  animation: GradientBackground 10s ease infinite;
+}
+
+.gradient-bg-2 {
+  background: rgb(237,237,237);
+  background: linear-gradient(84deg, rgba(237,237,237,1) 0%, rgba(237,249,255,1) 19%, rgba(254,254,254,1) 73%, rgba(234,251,255,1) 100%);
+  box-shadow: -1px 0 15px 5px rgb(228, 246, 255);
+}
+
+.gradient-bg-3 {
+  background: rgb(139,254,179);
+  background: linear-gradient(0deg, rgba(139,254,179,1) 0%, rgba(145,177,255,1) 100%);
+  box-shadow: -1px 0 15px 5px rgb(228, 246, 255);
+  background-size: 400% 400%;
+  animation: GradientBackground 10s ease infinite;
+}
+
+.gradient-bg-4 {
+  background: rgb(255,255,255);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(236,251,255,1) 100%);
+  box-shadow: -1px 0 15px 5px rgb(228, 246, 255);
+  background-size: 400% 400%;
+  animation: GradientBackground 10s ease infinite;
+}

@@ -33,8 +33,15 @@ const MakePayment = () => {
     }
 
     return <div>
-        <div>Make Payment {location.state.id}</div>
-        <div><Button style='success' onClick={onConfirmPayment}>Confirm</Button></div>
+        <div className="md:px-20 m-auto md:w-2/3 md:p-10">
+            <div className="bg-yellow-100 backdrop-blur border-4 p-10 w-full border-yellow-200/50 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
+                <div className="text-4xl pb-8 text-red-800 font-semibold text-center">Make Payment</div>
+                <div className="shadow-xl rounded-lg p-4 md:p-8 bg-slate-50/80">
+                    <div className="text-4xl pb-8 text-slate-800 font-semibold text-center">Rs. {location.state.cost}</div>
+                    <div><Button style='success' className={'w-full'} onClick={onConfirmPayment}>Confirm and Pay</Button></div>
+                </div>
+            </div>
+        </div>
     </div>
 }
 

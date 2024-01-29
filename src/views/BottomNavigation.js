@@ -22,10 +22,10 @@ const BottomNavigation = () => {
 
     return (
         <div className="flex sticky bottom-0 bg-slate-100 text-center pop-up md:rounded-full overflow-hidden">
-            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/')}>Home</div>
-            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/history' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/history')}>{user.isPassenger ? 'My Trips' : 'My Hires'}</div>
+            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/')}><i className="icon-home text-3xl"></i><br /> Home</div>
+            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/history' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/history')}><i className="icon-taxi text-3xl"></i> <br />{user.isPassenger ? 'My Trips' : 'My Hires'}</div>
             {/* <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/payments' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/payments')}>Payments</div> */}
-            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/settings' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/settings')}>More</div>
+            <div style={{transition: '0.3s'}} className={`flex-1 hover:bg-slate-300 cursor-pointer py-5 ${('/' + activeRoute) === '/settings' ? "bg-slate-800 hover:bg-slate-800 text-slate-50" : "bg-slate-100"}`} onClick={() => changeRoute('/settings')}><i className="icon-bars text-3xl"></i> <br />More</div>
         </div>
     );
 }

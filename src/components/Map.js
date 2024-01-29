@@ -120,23 +120,27 @@ function Map({trip, setTripInfo}) {
 
   async function calculateRoute() {
     if (window.google) {
-      const directionsService = new window.google.maps.DirectionsService();
-      const from = {lat: parseFloat(trip.locationFrom.split(', ')[0]), lng: parseFloat(trip.locationFrom.split(', ')[1])}
-      const to = {lat: parseFloat(trip.locationTo.split(', ')[0]), lng: parseFloat(trip.locationTo.split(', ')[1])}
-  
-      const results = await directionsService.route({
-        origin: new window.google.maps.LatLng(from),
-        destination: new window.google.maps.LatLng(to),
-        // destination: textRoute,
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      });
-  
-      let info = results.routes[0].legs[0];
-  
-      setRouteInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
-      setTripInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
-  
-      setDirectionsResponse(results);
+      try {
+        const directionsService = new window.google.maps.DirectionsService();
+        const from = {lat: parseFloat(trip.locationFrom.split(', ')[0]), lng: parseFloat(trip.locationFrom.split(', ')[1])}
+        const to = {lat: parseFloat(trip.locationTo.split(', ')[0]), lng: parseFloat(trip.locationTo.split(', ')[1])}
+    
+        const results = await directionsService.route({
+          origin: new window.google.maps.LatLng(from),
+          destination: new window.google.maps.LatLng(to),
+          // destination: textRoute,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        });
+    
+        let info = results.routes[0].legs[0];
+    
+        setRouteInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
+        setTripInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
+    
+        setDirectionsResponse(results);
+      } catch (error) {
+        alert("Map Loading Failed! Please Press Reload Button To Locate You")
+      }
     }
   }
 
@@ -178,15 +182,16 @@ function Map({trip, setTripInfo}) {
       <Button onClick={() => locate()}>Locate</Button> */}
       
       {/* <Button onClick={calculateRoute}>Show Route</Button> */}
-      <div className='bg-slate-100/90 absolute top-0 z-10 mt-4'>
+      <div className='bg-slate-100/90 absolute top-0 z-10 shadow-xl flex gap-5 p-4 left-0 justify-between items-center w-full mr-10 rounded-xl'>
         <div>{routeInfo ? routeInfo.distance.text : 'Loading Distance'}</div>
         <div>{routeInfo ? routeInfo.duration.text : 'Loading Duration'}</div>
-        <div>Estimated Cost: {routeInfo ? routeInfo.cost + " LKR" : 'Loading Cost'}</div>
-        <Button onClick={routeMe}>Route me on google maps</Button>
+        <div>Cost: {routeInfo ? routeInfo.cost + " LKR" : 'Loading Cost'}</div>
+        <Button onClick={routeMe}>Show in Google Maps</Button>
+        <Button onClick={calculateRoute}>Reload Map</Button>
       </div>
 
       {isLoaded ? 
-      <div className="">
+      <div className="rounded-xl overflow-hidden">
         <GoogleMap
                 center={currentLiveLocation.lat ? currentLiveLocation : center}
                 zoom={20}

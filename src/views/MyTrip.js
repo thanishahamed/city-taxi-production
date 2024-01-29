@@ -48,24 +48,34 @@ const MyTrip = () => {
             tripStatus: tripStatus.finished
         }
 
+        let userObject = {
+            availability: 1,
+            id: trip.data.driverId
+        }
+
+        console.log(trip, userObject);
+
         const payment = await processReq(POST, API_ROUTE + "/auth/payment", paymentObject);
         const tripResponse = await processReq(PUT, API_ROUTE + "/auth/trip", tripObject);
+        const userResponse = await processReq(PUT, API_ROUTE + "/auth/user", userObject);
 
-        if (payment.id && tripResponse === 1) {
+        if (payment.id && tripResponse === 1 && userResponse === 1) {
             navigate('/payments/create', {state: {...trip.data, paymentId: payment.id, cost: tripInfo.cost}});
         }
     }
 
     const cancelTrip = () => {
-
+        alert('Trip Cannot Be Cancelled')
     }
 
     const startTrip = async () => {
         let tripObject = {tripStatus: tripStatus.started, id: trip.data.id};
+        let userObject = {availability: 0, id: trip.data.driverId};
 
         const tripResponse = await processReq(PUT, API_ROUTE + "/auth/trip", tripObject);
+        const userResponse = await processReq(PUT, API_ROUTE + "/auth/user", userObject);
 
-        if (tripResponse === 1) {
+        if (tripResponse === 1 && userResponse === 1) {
             trip.mutate();
         }
     }
@@ -81,10 +91,10 @@ const MyTrip = () => {
                     trip.isLoading ? <LoadingIndicator isLoading={true}/> :
                     
                     !trip.data.driverApproval ?
-                        <div>
+                        <div className="md:px-20 m-auto md:w-2/3 md:p-10">
                             {
                                 trip.data.driverId || tripReserved ? 
-                                    <div style={{height: 'calc(100vh - 100px)'}} className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-down flex items-center justify-around flex-col">
+                                    <div style={{height: 'calc(100vh - 200px)'}} className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-down flex items-center justify-around flex-col">
                                         <div>
                                             <SuccessMessageViewer title="Your Trip Created!" message="Waiting for driver..." className='text-3xl text-center leading-10 animate-pulse animate-ping'/> 
                                             <LoadingIndicator isLoading={true}/>
@@ -115,15 +125,15 @@ const MyTrip = () => {
                                             <div>
                                                 {
                                                     user.isDriver || user.isOwner ?
-                                                    <Button style="success" onClick={startTrip}>Start Trip</Button>
+                                                    <Button style="success" className={'mb-1 w-40'} onClick={startTrip}>Start Trip</Button>
                                                     :''
                                                 }
                                                 {
                                                     trip.data.tripStatus === tripStatus.finished ?
-                                                    <Button style="danger" onClick={routeToMakePayment}>Make Payment</Button>   
+                                                    <Button style="danger" className={'mb-1 w-40'} onClick={routeToMakePayment}>Make Payment</Button>   
                                                     : trip.data.tripStatus === tripStatus.finishedPaid ?
-                                                        <Button style="danger" onClick={viewSummary}>View Summary</Button>
-                                                    : <Button style="danger" onClick={cancelTrip}>Cancel Trip</Button>
+                                                        <Button style="danger" className={'mb-1 w-40'} onClick={viewSummary}>View Summary</Button>
+                                                    : <Button style="danger" className={'mb-1 w-40'} onClick={cancelTrip}>Cancel Trip</Button>
                                                 }
                                                 
                                             </div>
@@ -141,22 +151,24 @@ const MyTrip = () => {
         )
     } else {
         return (
-            <div className="relative">
+            <div className="">
                 {
                     !trip.isLoading ? 
                     <div>
                         <div><Map trip={trip.data} setTripInfo={setTripInfo}/></div>
-                        <div className="absolute bottom-20 text-center w-full flex justify-center">
-                            <div>
-                            {
-                                trip.data.tripStatus === tripStatus.started ?
-                                <Button style="danger" onClick={routeToMakePayment}>End Trip</Button>
-                                : 
+                        <div className="relative">
+                            <div className="absolute bottom-20 text-center w-full flex justify-center rounded left-0 right-0">
                                 <div>
-                                    <Button style="success" onClick={startTrip}>Start Trip</Button>
-                                    <Button style="danger" onClick={cancelTrip}>Cancel Trip</Button>
+                                {
+                                    trip.data.tripStatus === tripStatus.started ?
+                                    <Button style="danger" className={'mb-1 w-40'} onClick={routeToMakePayment}>End Trip</Button>
+                                    : 
+                                    <div>
+                                        <Button style="success" className={'mb-1 w-40'} onClick={startTrip}>Start Trip</Button>
+                                        <Button style="danger" className={'w-40'}  onClick={cancelTrip}>Cancel Trip</Button>
+                                    </div>
+                                }
                                 </div>
-                            }
                             </div>
                         </div>
                     </div>

@@ -63,6 +63,7 @@ const Register = () => {
 
             const response  = await processReq(POST, API_ROUTE + '/register', requestObject);
 
+            console.log(response);
             if (response.length > 0) {
                 setIsRegistrationComplete(true);
             }
@@ -85,7 +86,7 @@ const Register = () => {
                     </div>
                     <div>
                         <LottieViewer lottieName={'particles'} />
-                        <LottieViewer lottieName={'successCheck'} loop={false}/>
+                        <LottieViewer lottieName={'successCheck'} loop={true}/>
                     </div>
                     <div>
                         <Button style="success" onClick={() => navigate('/login')} className={'text-3xl rounded-full'}>Login</Button>
