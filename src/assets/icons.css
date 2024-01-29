@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "tns-icon";
+  src:url("fonts/tns-icon.eot");
+  src:url("fonts/tns-icon.eot?#iefix") format("embedded-opentype"),
+    url("fonts/tns-icon.woff") format("woff"),
+    url("fonts/tns-icon.ttf") format("truetype"),
+    url("fonts/tns-icon.svg#tns-icon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "tns-icon" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "tns-icon" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+  content: "\61";
+}
+.icon-phone:before {
+  content: "\63";
+}
+.icon-bars:before {
+  content: "\62";
+}
+.icon-home:before {
+  content: "\64";
+}
+.icon-users:before {
+  content: "\65";
+}
+.icon-tasks:before {
+  content: "\66";
+}
+.icon-users-1:before {
+  content: "\67";
+}
+.icon-users-outline:before {
+  content: "\68";
+}
+.icon-align-justify:before {
+  content: "\69";
+}
+.icon-pin:before {
+  content: "\6a";
+}
+.icon-services:before {
+  content: "\6b";
+}
+.icon-cart:before {
+  content: "\6c";
+}
+.icon-blog:before {
+  content: "\6d";
+}
+.icon-taxi:before {
+  content: "\6e";
+}
+.icon-indent-more:before {
+  content: "\6f";
+}
+.icon-refresh:before {
+  content: "\70";
+}
+.icon-sign-out:before {
+  content: "\71";
+}
+.icon-user:before {
+  content: "\72";
+}
+.icon-trash:before {
+  content: "\73";
+}
+.icon-pencil-square-o:before {
+  content: "\74";
+}
+.icon-wrench:before {
+  content: "\75";
+}
+.icon-star:before {
+  content: "\76";
+}
+.icon-plane:before {
+  content: "\77";
+}
+.icon-model-s:before {
+  content: "\78";
+}
+.icon-male:before {
+  content: "\79";
+}
+.icon-person-stalker:before {
+  content: "\7a";
+}
+.icon-map:before {
+  content: "\41";
+}
+.icon-plus-square-o:before {
+  content: "\42";
+}
+.icon-arrow-left:before {
+  content: "\43";
+}
+.icon-eye:before {
+  content: "\44";
+}

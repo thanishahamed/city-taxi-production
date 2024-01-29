@@ -13,12 +13,19 @@ import MyTrip from "./views/MyTrip";
 import MakePayment from "./views/MakePayment";
 import RateDriver from "./views/RateDriver";
 import TripSummary from "./views/TripSummary";
+import AdminHome from "./views/admin/AdminHome";
+import ManageDrivers from "./views/admin/ManageDrivers";
+import ManageOwners from "./views/admin/ManageOwners";
+import ManagePassenger from "./views/admin/ManagePassenger";
+import ManageOperators from "./views/admin/ManageOperators";
+import ManageVehicles from "./views/admin/ManageVehicle";
+import ManagePayments from "./views/admin/ManagePayments";
 
 const router = createBrowserRouter([
   {
       path: "/",
       element: <Root />,
-      errorElement: <div>error 404</div>,
+      errorElement: <div className="bg-white"></div>,
       children: [
           {
               path:"/",
@@ -64,7 +71,41 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin />
+    element: <Admin />,
+    children: [
+      {
+          path:"",
+          element: <AdminHome />
+      },
+      {
+          path:"driver",
+          element: <ManageDrivers />
+      },
+      {
+          path:"owner",
+          element: <ManageOwners />
+      },
+      {
+          path:"passenger",
+          element: <ManagePassenger />
+      },
+      {
+          path:"operator",
+          element: <ManageOperators />
+      },
+      {
+          path:"vehicle",
+          element: <ManageVehicles />
+      },
+      {
+          path:"payment",
+          element: <ManagePayments />
+      },
+      {
+          path:"home",
+          element: <div>home</div>
+      }
+  ]
   }
 ]);
 

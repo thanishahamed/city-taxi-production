@@ -4,6 +4,7 @@ import { GET, POST } from "../utils/requestActionConstants";
 import { processReq } from "../helpers/processRequest";
 import { createContext } from "react";
 import { userRoles } from "../utils/configConstants";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
@@ -30,6 +31,8 @@ const AuthContextProvider = ({children}) => {
         setIsLoggedIn(false);
         localStorage.removeItem('token');
         setUser(null);
+
+        window.location.replace('/')
     }
 
     const login = async (username, password) => {
@@ -54,7 +57,6 @@ const AuthContextProvider = ({children}) => {
 
         if (response.error) {
             logOut();
-            console.log('logout called')
         } else {
 
             let user = response;

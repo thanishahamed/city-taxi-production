@@ -1,13 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import WebPage from './WebPage';
 import { AuthContext } from '../context/AuthContextProvider';
 import BottomNavigation from './BottomNavigation';
+import Admin from './Admin';
+import Sidebar from '../components/Sidebar';
+import Button from '../components/Button';
 
 function Root() {
-    const {isLoggedIn} = useContext(AuthContext);
+    const {isLoggedIn, user, logOut} = useContext(AuthContext);
     const [hidden, setHidden] = useState(false);
     const [sideBarStyles, setSideBarStyles] = useState({maxWidth: 200});
+    const navigate = useNavigate();
 
     useEffect(() => {
         let styles = {transition: '0.4s', overflow: 'hidden'};
@@ -23,7 +27,13 @@ function Root() {
         setSideBarStyles(styles);
     }, [hidden]);
 
-    if (isLoggedIn) {
+    useEffect(() => {
+        if (user.isAdmin) {
+            navigate('/admin')
+        }
+    }, [user])
+
+    if (isLoggedIn && !user.isAdmin) {
         return (
             <div className={''}>
                 <div className='md:px-20 flex justify-between flex-col'>
@@ -32,8 +42,10 @@ function Root() {
                 </div>
             </div>
         )
+    } else if (isLoggedIn && user.isAdmin) {
+        return <div className='bg-white'>Loading</div>
     } else {
-        return <div className='md:px-20'><WebPage /></div>
+        return <div className='md:px-20 bg-white'><WebPage /></div>
     }
 
 }

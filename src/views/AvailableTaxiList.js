@@ -35,19 +35,23 @@ const AvailableTaxiList = ({trip, loadTrip}) => {
     }
 
     return (
-        <div>
-            Available Taxies for trip {trip ? trip.id : ''}
+        <div className="">
+            <div className="bg-yellow-100 backdrop-blur border-4 p-10 w-full border-yellow-200/50 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
+                <div className="text-4xl pb-8 text-red-800 font-semibold">Available Taxies</div>
+                <div className="text-2xl pb-8 text-slate-800 font-semibold">Trip: {trip ? trip.placeFrom + ' to ' + trip.placeTo : ''}</div>
 
-            {
-                !availableTaxis.isLoading ? 
-                    <Table 
-                        headers={['id', 'firstName', 'description', 'vehicleNumber']}
-                        masterData={availableTaxis.data}
-                        showRatingCell={true}
-                        actionButtons={[{label: 'Reserve', action: reserveTaxi, style: 'success'}]}
-                    />
-                : ''
-            }
+                {
+                    !availableTaxis.isLoading ? 
+                        <Table 
+                            headers={['id', 'firstName', 'description', 'vehicleNumber']}
+                            masterData={availableTaxis.data}
+                            showRatingCell={true}
+                            actionButtons={[{label: 'Reserve', action: reserveTaxi, style: 'success'}]}
+                        />
+                    : ''
+                }
+                {console.log(availableTaxis.data)}
+            </div>
         </div>
     )
 }

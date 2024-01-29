@@ -88,7 +88,7 @@ const AvailableHires = () => {
             {
                 (user.isDriver || user.isOwner) && !user.vehicle ? 
                 <div>
-                    <div className="text-4xl pb-8">Register Your Vehicle</div>
+                    <div className="text-4xl pb-8 text-red-800 font-semibold">Register Your Vehicle</div>
                     <Alert isShow={isError} setIsShow={setIsError} message={errorMessage} />
                     <form onSubmit={onSubmitVehicleForm} noValidate>
                         <div className="pb-4">
@@ -115,8 +115,8 @@ const AvailableHires = () => {
 
                 hires.isLoading ? "Loading..." :
                 <div>
-                    <div>Available Hire List</div>
-                    <div>Pickup a hire</div>
+                    <div className="text-2xl text-red-700 font-semibold">Available Hire List</div>
+                    <div className=" text-slate-900">Pickup a hire</div>
                     
                     <Table masterData={hires.data} headers={['placeFrom', 'placeTo']} actionButtons={[{label: 'Approve', action: approveHire, style: 'success'}]}/>
                 </div>

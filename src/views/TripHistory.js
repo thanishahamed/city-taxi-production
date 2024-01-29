@@ -17,13 +17,13 @@ const TripHistory = () => {
         navigate('/myTrip', { state: trip })
     }
 
-    const actionButtonArray = [{label: 'View', action: loadTrip, style: 'success'}];
+    const actionButtonArray = [{label: 'View', action: loadTrip, style: 'success', iconClass: ''}];
     
     return (
         <div>
             <div className="md:px-20 m-auto md:w-2/3 md:p-10">
                 <div className="bg-yellow-100 backdrop-blur border-4 p-10 w-full border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
-                    <div className="text-3xl">{user.isPassenger ? 'Trip History' : 'Hire History'}</div>
+                    <div className="text-4xl pb-8 text-red-800 font-semibold">{user.isPassenger ? 'Trip History' : 'Hire History'}</div>
                     {
 
                         trips.isLoading ? "Loading..." :
