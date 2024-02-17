@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 .home h1{
   font-size: 60px;
   font-weight: 700;
