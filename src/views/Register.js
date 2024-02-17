@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { isEmptyString } from "../utils/validations";
@@ -19,6 +19,7 @@ const Register = () => {
     const [isDriver, setIsDriver] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const formRef = useRef(null);
     
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -61,19 +62,27 @@ const Register = () => {
         if (isValidated) {
             setIsLoading(true);
 
-            const response  = await processReq(POST, API_ROUTE + '/register', requestObject);
+            if (requestObject.password !== requestObject.confirmPassword) {
+                setErrorMessage('Password fields mismatched!');
+                setIsError(true);
+                formRef.current.password.focus();
+                window.scrollTo(0, 0);
+            } else {
+                const response  = await processReq(POST, API_ROUTE + '/register', requestObject);
+                // event.preventDefault();
 
-            console.log(response);
-            if (response.length > 0) {
-                setIsRegistrationComplete(true);
+                if (response.error) {
+                    formRef.current.focus();
+                    setErrorMessage(response.message);
+                    setIsError(true);
+                    window.scrollTo(0, 0);
+                } else if (response.length > 0) {
+                    setIsRegistrationComplete(true);
+                }
             }
 
             setIsLoading(false);
         }
-
-        // setTimeout(() => {
-        //     setIsLoading(false);
-        // }, 4000)
     }
 
     return (
@@ -86,22 +95,25 @@ const Register = () => {
                     </div>
                     <div>
                         <LottieViewer lottieName={'particles'} />
-                        <LottieViewer lottieName={'successCheck'} loop={true}/>
+                        <LottieViewer lottieName={'successCheck'} loop={false}/>
                     </div>
                     <div>
                         <Button style="success" onClick={() => navigate('/login')} className={'text-3xl rounded-full'}>Login</Button>
                     </div>
                     
                 </div>
-            : isLoading ? <LoadingIndicator className={'h-screen'} isLoading={isLoading}/> : 
-                <div className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right">
+            : 
+            <>
+                {isLoading ? <LoadingIndicator className={'h-screen'} isLoading={isLoading}/> : ''}
+
+                <div className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-right" style={{display: isLoading ? 'none' : 'block'}}>
                     <Button size="sm" style={'light'} className={'mb-4'} onClick={() => {navigate('/')}}>Back to Home</Button>
                     <div className="text-4xl pb-8">Register</div>
                     <Alert isShow={isError} setIsShow={setIsError} message={errorMessage} />
-                    <form onSubmit={onSubmit} noValidate>
+                    <form onSubmit={onSubmit} noValidate ref={formRef}>
                         <div className="pb-4">
                             <div className="pb-1">Email</div>
-                            <Input name={'email'} className='w-full' type="email" required />
+                            <Input name={'email'} className='w-full' type="email" required autoFocus={true} />
                         </div>
 
                         <div className="pb-4">
@@ -122,6 +134,11 @@ const Register = () => {
                         <div className="pb-4">
                             <div className="pb-1">Password</div>
                             <Input name={'password'} className='w-full' required type="password"/>
+                        </div>
+
+                        <div className="pb-4">
+                            <div className="pb-1">Confirm Password</div>
+                            <Input name={'confirmPassword'} className='w-full' required type="password"/>
                         </div>
 
                         <div className="pb-4">
@@ -150,6 +167,7 @@ const Register = () => {
                         </div>
                     </form>
                 </div>
+            </>
             }
         </div>
     )

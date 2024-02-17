@@ -64,8 +64,12 @@ const MyTrip = () => {
         }
     }
 
-    const cancelTrip = () => {
-        alert('Trip Cannot Be Cancelled')
+    const cancelTrip = async () => {
+        let reqObj = {id: trip.data.id, tripStatus: user.isPassenger ? tripStatus.rejectedByPassenger : tripStatus.rejectedByDriver}
+
+        await processReq(PUT, API_ROUTE + '/auth/trip/', reqObj);
+
+        navigate('/history');
     }
 
     const startTrip = async () => {
@@ -90,13 +94,23 @@ const MyTrip = () => {
                 {
                     trip.isLoading ? <LoadingIndicator isLoading={true}/> :
                     
+                    trip.data.tripStatus === tripStatus.rejectedByDriver || trip.data.tripStatus === tripStatus.rejectedByPassenger ?
+                    
+                    <div style={{height: 'calc(100vh - 200px)'}} className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-down flex items-center justify-center flex-col">
+                        <div className="bg-red-500 rounded-3xl px-10 py-5 text-4xl text-white mb-4">Trip Rejected</div> 
+                        <div className="rounded-3xl bg-green-500 text-white px-5 py-3 mb-4">{trip.data.tripStatus}</div> 
+                        <Button className={'w-full mt-5'} onClick={() => navigate('/history')}>Go Back</Button>
+                    </div>
+                    
+                    :
+
                     !trip.data.driverApproval ?
                         <div className="md:px-20 m-auto md:w-2/3 md:p-10">
                             {
                                 trip.data.driverId || tripReserved ? 
                                     <div style={{height: 'calc(100vh - 200px)'}} className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-down flex items-center justify-around flex-col">
                                         <div>
-                                            <SuccessMessageViewer title="Your Trip Created!" message="Waiting for driver..." className='text-3xl text-center leading-10 animate-pulse animate-ping'/> 
+                                            <SuccessMessageViewer title="Your Trip Created!" message="Waiting for driver..." className='text-3xl text-center leading-10 animate-pulse'/> 
                                             <LoadingIndicator isLoading={true}/>
                                         </div>
                                         <div>
@@ -154,6 +168,17 @@ const MyTrip = () => {
             <div className="">
                 {
                     !trip.isLoading ? 
+                    
+                    trip.data.tripStatus === tripStatus.rejectedByDriver || trip.data.tripStatus === tripStatus.rejectedByPassenger ?
+                    
+                    <div style={{height: 'calc(100vh - 200px)'}} className="bg-yellow-100 backdrop-blur border-4 p-10 border-yellow-400 shadow-2xl drop-shadow-sm transition ease-in-out duration-300 rounded-xl pop-down flex items-center justify-center flex-col">
+                        <div className="bg-red-500 rounded-3xl px-10 py-5 text-4xl text-white mb-4">Trip Rejected</div> 
+                        <div className="rounded-3xl bg-green-500 text-white px-5 py-3 mb-4">{trip.data.tripStatus}</div> 
+                        <Button className={'w-full mt-5'} onClick={() => navigate('/history')}>Go Back</Button>
+                    </div>
+                    
+                    :
+
                     <div>
                         <div><Map trip={trip.data} setTripInfo={setTripInfo}/></div>
                         <div className="relative">

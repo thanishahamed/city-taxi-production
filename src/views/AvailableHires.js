@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Alert from "../components/Alert";
 import { isEmptyString } from "../utils/validations";
+import { tripStatus } from "../utils/configConstants";
 
 const AvailableHires = () => {
     const {isLoggedIn, user, verifyUser} = useContext(AuthContext);
@@ -20,15 +21,19 @@ const AvailableHires = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const approveHire = async (hire) => {
-        console.log(hire);
-
         let reqObj = {...hire, driverApproval: 1}
 
         const trip = await processReq(PUT, API_ROUTE + '/auth/trip/', reqObj);
 
-        console.log('hey', trip)
-
         navigate('/myTrip', { state: hire });
+    }
+
+    const rejectHire = async (hire) => {
+        let reqObj = {...hire, tripStatus: user.isPassenger ? tripStatus.rejectedByPassenger : tripStatus.rejectedByDriver}
+
+        const trip = await processReq(PUT, API_ROUTE + '/auth/trip/', reqObj);
+
+        navigate('/history', { state: hire });
     }
 
     const onSubmitVehicleForm = async (event) => {
@@ -118,7 +123,10 @@ const AvailableHires = () => {
                     <div className="text-2xl text-red-700 font-semibold">Available Hire List</div>
                     <div className=" text-slate-900">Pickup a hire</div>
                     
-                    <Table masterData={hires.data} headers={['placeFrom', 'placeTo']} actionButtons={[{label: 'Approve', action: approveHire, style: 'success'}]}/>
+                    <Table masterData={hires.data} headers={['placeFrom', 'placeTo']} actionButtons={[
+                        {label: 'Approve', action: approveHire, style: 'success'},
+                        {label: 'Reject', action: rejectHire, style: 'danger'}
+                    ]}/>
                 </div>
             }
         </div>

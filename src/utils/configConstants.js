@@ -11,7 +11,9 @@ export const tripStatus = {
     waitingForDriver: 'WAITING FOR DRIVER',
     finished: 'FINISHED',
     finishedPaid: 'FINISHED PAID',
-    started: 'STARTED'
+    started: 'STARTED',
+    rejectedByDriver: 'REJECTED BY DRIVER',
+    rejectedByPassenger: 'REJECTED BY PASNGR'
 }
 
 export const driverStatus = {
