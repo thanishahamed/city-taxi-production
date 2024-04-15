@@ -7,7 +7,7 @@ import {
   Autocomplete,
   StandaloneSearchBox,
 } from "@react-google-maps/api";
-import {  createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { io } from 'socket.io-client';
 import { SERVER_ROUTE } from '../utils/commonConstants';
 import Button from './Button';
@@ -26,7 +26,7 @@ const center = {
 const libraries = ["places"];
 const socket = io(SERVER_ROUTE);
 
-function Map({trip, setTripInfo}) {
+function Map({ trip, setTripInfo, disabled }) {
   const [currentLocation, setCurrentLocation] = useState({});
   const [directionsResponse, setDirectionsResponse] = useState(undefined);
   const destiantionRef = useRef(null);
@@ -40,12 +40,12 @@ function Map({trip, setTripInfo}) {
   const [receivedMessage, setReceivedMessage] = useState('');
   const [room, setRoom] = useState('');
   const [routeInfo, setRouteInfo] = useState(undefined);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_MAPS_API,
-    libraries:libraries
+    libraries: libraries
   });
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function Map({trip, setTripInfo}) {
     initiateSocket();
 
     socket.on('receive_message', (response) => {
-        setReceivedMessage(response);
+      setReceivedMessage(response);
     })
   }, [])
 
@@ -61,10 +61,10 @@ function Map({trip, setTripInfo}) {
     socket.on("connect", () => {
       // socket.id = "tns-id";
       console.info('socket instance initiated', socket.id);
-        sessionStorage.setItem('socketId', socket.id);
+      sessionStorage.setItem('socketId', socket.id);
     });
 
-    socket.on("disconnect", () => {});
+    socket.on("disconnect", () => { });
   }
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function Map({trip, setTripInfo}) {
 
   useEffect(() => {
     if (trip.locationFrom) {
-      // console.log('calculating', trip)
+      console.log('calculating', trip)
       calculateRoute();
     }
   }, [trip.locationFrom])
@@ -110,10 +110,10 @@ function Map({trip, setTripInfo}) {
   function success(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    setCurrentLocation({lat: latitude, lng: longitude});
+    setCurrentLocation({ lat: latitude, lng: longitude });
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
   }
-  
+
   function error() {
     console.log("Unable to retrieve your location");
   }
@@ -122,21 +122,22 @@ function Map({trip, setTripInfo}) {
     if (window.google) {
       try {
         const directionsService = new window.google.maps.DirectionsService();
-        const from = {lat: parseFloat(trip.locationFrom.split(', ')[0]), lng: parseFloat(trip.locationFrom.split(', ')[1])}
-        const to = {lat: parseFloat(trip.locationTo.split(', ')[0]), lng: parseFloat(trip.locationTo.split(', ')[1])}
-    
+        const from = { lat: parseFloat(trip.locationFrom.split(', ')[0]), lng: parseFloat(trip.locationFrom.split(', ')[1]) }
+        const to = { lat: parseFloat(trip.locationTo.split(', ')[0]), lng: parseFloat(trip.locationTo.split(', ')[1]) }
+
         const results = await directionsService.route({
           origin: new window.google.maps.LatLng(from),
           destination: new window.google.maps.LatLng(to),
           // destination: textRoute,
           travelMode: window.google.maps.TravelMode.DRIVING,
         });
-    
+
+        console.log(from, to)
         let info = results.routes[0].legs[0];
-    
-        setRouteInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
-        setTripInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
-    
+
+        setRouteInfo({ ...info, cost: Math.round(info.distance.value * tripCost.perMeter) });
+        setTripInfo({ ...info, cost: Math.round(info.distance.value * tripCost.perMeter) });
+
         setDirectionsResponse(results);
       } catch (error) {
         alert("Map Loading Failed! Please Press Reload Button To Locate You")
@@ -154,7 +155,7 @@ function Map({trip, setTripInfo}) {
   // }
 
   const sendMessage = () => {
-    socket.emit('send_message', {message, room});
+    socket.emit('send_message', { message, room });
   }
 
   const joinRoom = () => {
@@ -165,8 +166,7 @@ function Map({trip, setTripInfo}) {
   const routeMe = () => {
     // let url = "https://www.google.com/maps/dir/'7.2905715,80.6337262'/'7.226803299999998,80.1958755'/@7.3516569,80.2204329,11z/data=!3m1!4b1!4m10!4m9!1m3!2m2!1d80.6337262!2d7.2905715!1m3!2m2!1d80.1958755!2d7.2268033!3e0?entry=ttu"
     let location = user.isDriver || user.isOwner ? trip.locationFrom : trip.locationTo;
-    let url = "https://www.google.com/maps/dir/Current+Location/'"+ location +"'/"
-    console.log('printing url', url)
+    let url = `https://www.google.com/maps?q=${location.split(', ')[0]},${location.split(', ')[1]}`
     window.open(url, "_blank", "noreferrer");
   }
 
@@ -177,41 +177,41 @@ function Map({trip, setTripInfo}) {
       {/* <div className='p-2'>Room: <input type="text" value={room} onChange={(e) => setRoom(e.target.value)}/><button onClick={joinRoom}>Join Room</button></div>
       <div className='p-2'>User Name: <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)}/></div>
       <div className='p-2'>Destination User Name: <input type="text" value={destinationName} onChange={(e) => setDestinationName(e.target.value)}/></div> */}
-      
+
       {/* <Button onClick={() => locate(center)}>Locate Center</Button>
       <Button onClick={() => locate()}>Locate</Button> */}
-      
+
       {/* <Button onClick={calculateRoute}>Show Route</Button> */}
       <div className='bg-slate-100/90 absolute top-0 z-10 shadow-xl flex gap-5 p-4 left-0 justify-between items-center w-full mr-10 rounded-xl'>
         <div>{routeInfo ? routeInfo.distance.text : 'Loading Distance'}</div>
         <div>{routeInfo ? routeInfo.duration.text : 'Loading Duration'}</div>
-        <div>Cost: {routeInfo ? routeInfo.cost + " LKR" : 'Loading Cost'}</div>
-        <Button onClick={routeMe}>Show in Google Maps</Button>
-        <Button onClick={calculateRoute}>Reload Map</Button>
+        <div>Cost: {routeInfo ? routeInfo.cost + " LKR (" + tripCost.perKMeter + " /KM)" : 'Loading Cost'}</div>
+        <Button onClick={routeMe}><i className="icon-map"></i></Button>
+        <Button onClick={calculateRoute}><i className="icon-refresh"></i></Button>
       </div>
 
-      {isLoaded ? 
-      <div className="rounded-xl overflow-hidden">
-        <GoogleMap
-                center={currentLiveLocation.lat ? currentLiveLocation : center}
-                zoom={20}
-                mapContainerStyle={{ width: "100%", height: "calc(100vh - 100px)" }}
-                options={{
-                  zoomControl: false,
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                  fullscreenControl: false,
-                }}
-                onLoad={(map) => setMap(map)}
-                >
+      {isLoaded ?
+        <div className="rounded-xl overflow-hidden">
+          <GoogleMap
+            center={currentLiveLocation.lat ? currentLiveLocation : center}
+            zoom={20}
+            mapContainerStyle={{ width: "100%", height: "calc(100vh - 100px)" }}
+            options={{
+              zoomControl: false,
+              streetViewControl: false,
+              mapTypeControl: false,
+              fullscreenControl: false,
+            }}
+            onLoad={(map) => setMap(map)}
+          >
 
-                {directionsResponse ? <DirectionsRenderer directions={directionsResponse} /> : 'not rendering'}
-                {currentLiveLocation.lat ? <MarkerF icon={user.isDriver || user.isOwner ? driverIcon : userIcon} position={currentLiveLocation}/> : ''} 
-        </GoogleMap>
+            {directionsResponse ? <DirectionsRenderer directions={directionsResponse} /> : 'not rendering'}
+            {currentLiveLocation.lat ? <MarkerF icon={user.isDriver || user.isOwner ? driverIcon : userIcon} position={currentLiveLocation} /> : ''}
+          </GoogleMap>
         </div>
         :
         "Not yet loaded"
-        }
+      }
     </div>
   );
 }

@@ -27,13 +27,13 @@ function Sidebar(props) {
             icon: "",
             isActive: false,
         },
-        {
-            id: 5,
-            label: "Owners",
-            route: "owner",
-            icon: "",
-            isActive: false,
-        },
+        // {
+        //     id: 5,
+        //     label: "Owners",
+        //     route: "owner",
+        //     icon: "",
+        //     isActive: false,
+        // },
         {
             id: 4,
             label: "Passengers",
