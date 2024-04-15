@@ -8,8 +8,10 @@ import { API_ROUTE } from "../utils/commonConstants";
 import { POST } from "../utils/requestActionConstants";
 import Alert from "../components/Alert";
 import { AuthContext } from "../context/AuthContextProvider";
-import { tripStatus, userStatus } from "../utils/configConstants";
+import {tripCost, tripStatus, userStatus} from "../utils/configConstants";
 import { StandaloneSearchBox, useJsApiLoader } from "@react-google-maps/api";
+import { Modal } from "@mui/material";
+import Map from "../components/Map";
 
 const libraries = ["places"];
 
@@ -25,6 +27,9 @@ const BookTaxi = () => {
     const [toLocation, setToLocation] = useState({});
     const [currentLiveLocation, setCurrentLiveLocation] = useState({});
     const [fromCurrentLocation, setFromCurrentLocation] = useState(false);
+    const [routeInfo, setRouteInfo] = useState(undefined);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [tripInfo, setTripInfo] = useState({});
 
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
@@ -111,8 +116,6 @@ const BookTaxi = () => {
             requestObject.placeFrom = fromCurrentLocation ? from : fromDestinationRef.current.getPlaces()[0].formatted_address;
             requestObject.placeTo = toDestinationRef.current.getPlaces()[0].formatted_address;
 
-            console.log('priting the request object', requestObject)
-
             if (user.isOperator) {
                 let requestObj1 = {
                     firstName: requestObject.firstName,
@@ -162,7 +165,6 @@ const BookTaxi = () => {
             let place = places[0];
             let location = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
 
-            console.log('priniting the places', places);
             setFromLocation(location)
         } 
     }
@@ -174,15 +176,55 @@ const BookTaxi = () => {
             let place = places[0];
             let location = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
 
-            console.log(location)
             setToLocation(location)
         } 
+    }
+
+    async function calculateRoute() {
+        setModalOpen(true)
+        // if (window.google) {
+        //     try {
+        //         const directionsService = new window.google.maps.DirectionsService();
+        //         const from = {lat: fromLocation.lat, lng: fromLocation.lat}
+        //         const to = {lat: toLocation.lat, lng: toLocation.lng}
+
+        //         const results = await directionsService.route({
+        //             origin: new window.google.maps.LatLng(from),
+        //             destination: new window.google.maps.LatLng(to),
+        //             // destination: textRoute,
+        //             travelMode: window.google.maps.TravelMode.DRIVING,
+        //         });
+
+        //         let info = results.routes[0].legs[0];
+
+        //         setRouteInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
+        //         // setTripInfo({...info, cost: Math.round(info.distance.value * tripCost.perMeter)});
+        //     } catch (error) {
+        //         console.log(error)
+        //         alert("Map Loading Failed! Please Press Reload Button To Locate You")
+        //     }
+        // }
+    }
+
+    const closeModalFn = (event) => {
+        setModalOpen(false);
     }
 
     return(
         <div className="shadow-xl rounded-lg p-4 md:p-8 bg-slate-50/80">
             <div className="text-3xl">Book A Taxi!</div>
             <div>
+            <Modal
+                open={modalOpen}
+                onClose={() => closeModalFn()}
+            >
+                <div>
+                    <div className="flex justify-end pt-5 pr-5"><Button style="danger" onClick={()=>setModalOpen(false)}>Close</Button></div>
+                    <div className="relative mt-5">
+                        <Map trip={{locationFrom: `${fromLocation.lat}, ${fromLocation.lng}`, locationTo: `${toLocation.lat}, ${toLocation.lng}`}} setTripInfo={setTripInfo} disabled={true}/>
+                    </div>
+                </div>
+            </Modal>
                 <Alert isShow={isError} setIsShow={setIsError} message={errorMessage} />
                     {
                         isLoaded ?
@@ -210,7 +252,6 @@ const BookTaxi = () => {
                                 <div className="pb-4">
                                     <div className="pb-1">Location From:</div>
                                     <Button type={'button'} size="sm" style={fromCurrentLocation ? 'danger' : 'success'} className={'my-3'} onClick={locate}>{fromCurrentLocation ? "Click to disable using current location" : "Use Current Location"}</Button>
-                                    {/* <div>Current Location</div> */}
                                     {fromCurrentLocation ? currentLiveLocation.lat ? currentLiveLocation.lat + " - " + currentLiveLocation.lng : 'Loading Current Location...' : ''}
                                     <StandaloneSearchBox onLoad={ref => fromDestinationRef.current = ref} onPlacesChanged={fromPlaceChanged}>
                                         <Input name={'locationFrom'} className='w-full' required={!fromCurrentLocation} disabled={fromCurrentLocation}/>
@@ -227,6 +268,10 @@ const BookTaxi = () => {
                                 <div className="pb-4">
                                     <div className="pb-1">Trip Start Request Time</div>
                                     <Input name={'tripStartTime'} className='w-full' type="datetime-local" required />
+                                </div>
+
+                                <div>
+                                    <Button type={'button'} disabled={!(fromLocation.lat && toLocation.lat)} onClick={calculateRoute}>View Estimate</Button>
                                 </div>
 
                                 <Button type={'submit'} className={'mt-5 w-full'}>Book Now!</Button>

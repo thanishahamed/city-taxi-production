@@ -47,6 +47,7 @@ const AvailableTaxiList = ({trip, loadTrip}) => {
                             masterData={availableTaxis.data}
                             showRatingCell={true}
                             actionButtons={[{label: 'Reserve', action: reserveTaxi, style: 'success'}]}
+                            searchBy={'firstName'}
                         />
                     : ''
                 }

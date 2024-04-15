@@ -37,5 +37,6 @@ export const userStatus = {
 }
 
 export const tripCost = {
-    perMeter: 0.15
+    perMeter: 0.15,
+    perKMeter: 0.15 * 1000
 }

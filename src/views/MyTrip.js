@@ -20,7 +20,7 @@ const MyTrip = () => {
     const [tripReserved, setTripReserved] = useState(false);
     const navigate = useNavigate();
     const {user} = useContext(AuthContext);
-    const trip = useSWR({method: GET, url: API_ROUTE + '/auth/trip/' + location.state.id} , fetcher);
+    const trip = useSWR({method: GET, url: API_ROUTE + '/auth/trip/' + location.state.id} , fetcher, { refreshInterval: 1000 });
     const [tripInfo, setTripInfo] = useState({});
 
     useEffect(() => {

@@ -27,7 +27,7 @@ const TripHistory = () => {
                     {
 
                         trips.isLoading ? "Loading..." :
-                        <Table masterData={trips.data} headers={['placeFrom', 'placeTo']} actionButtons={actionButtonArray}/>
+                        <Table masterData={trips.data} headers={['placeFrom', 'placeTo']} searchBy={'placeTo'} actionButtons={actionButtonArray}/>
                     }
                 </div>
             </div>

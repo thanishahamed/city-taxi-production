@@ -24,6 +24,7 @@ const ManageOwners = () => {
                                     {label: '', iconClass: 'icon-pencil-square-o text-lg', action: showCommonMessage, style: 'ghost'},
                                     {label: '', iconClass: 'icon-trash text-red-700 text-lg', action: showCommonMessage, style: 'ghost'}
                                 ]}
+                                searchBy={'email'}
                             />
                         : ''
                     }
